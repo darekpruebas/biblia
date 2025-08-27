@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Versículos Bíblicos</title>
+  <style>
+    body {
+      background-color: #f5f5dc;
+      font-family: 'Georgia', serif;
+      text-align: center;
+      padding: 50px;
+    }
+
+    h1 {
+      color: #4a2c2a;
+    }
+
+    .versiculo {
+      font-size: 24px;
+      color: #333;
+      margin-top: 30px;
+      padding: 20px;
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      display: inline-block;
+      max-width: 600px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Versículos Bíblicos del Día</h1>
+  <div class="versiculo" id="versiculo"></div>
+  <button onclick="mostrarVersiculo()">Mostrar otro versículo</button>
+
+  <script>
+    const versiculos = [
+      "Juan 3:16 - Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito...",
+      "Salmos 23:1 - Jehová es mi pastor; nada me faltará.",
+      "Filipenses 4:13 - Todo lo puedo en Cristo que me fortalece.",
+      "Proverbios 3:5 - Confía en el Señor con todo tu corazón...",
+      "Jeremías 29:11 - Porque yo sé los planes que tengo para ustedes, declara el Señor..."
+    ];
+
+    function mostrarVersiculo() {
+      const aleatorio = Math.floor(Math.random() * versiculos.length);
+      document.getElementById('versiculo').textContent = versiculos[aleatorio];
+    }
+
+    // Mostrar uno al cargar
+    mostrarVersiculo();
+  </script>
+
+</body>
+</html>
