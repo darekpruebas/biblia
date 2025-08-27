@@ -5,58 +5,116 @@
   <title>Versículos Bíblicos</title>
   <style>
     body {
-      background-color: #f5f5dc;
+      background-color: #f2f2f2;
       font-family: 'Georgia', serif;
       text-align: center;
-      padding: 50px;
+      padding: 40px;
     }
 
     h1 {
-      color: #4a2c2a;
+      color: #2c3e50;
+    }
+
+    .seccion {
+      margin-top: 40px;
     }
 
     .versiculo {
-      font-size: 24px;
+      font-size: 20px;
       color: #333;
-      margin-top: 30px;
+      margin: 20px auto;
       padding: 20px;
       background: #fff;
       border: 2px solid #ccc;
       border-radius: 10px;
-      display: inline-block;
       max-width: 600px;
     }
 
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      margin-top: 10px;
+    }
+
     button {
-      margin-top: 30px;
-      padding: 10px 20px;
+      padding: 10px 15px;
       font-size: 16px;
       cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .resultados {
+      margin-top: 20px;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 14px;
+      color: #777;
     }
   </style>
 </head>
 <body>
 
-  <h1>Versículos Bíblicos del Día</h1>
-  <div class="versiculo" id="versiculo"></div>
-  <button onclick="mostrarVersiculo()">Mostrar otro versículo</button>
+  <h1>Versículos Bíblicos</h1>
+
+  <!-- ✅ Versículo del Día desde API -->
+  <div class="seccion">
+    <h2>Versículo del Día</h2>
+    <div id="versiculoDia" class="versiculo">Cargando versículo...</div>
+  </div>
+
+  <!-- ✅ Buscador por palabra clave -->
+  <div class="seccion">
+    <h2>Buscar Versículos</h2>
+    <input type="text" id="buscar" placeholder="Ej: amor, fe, esperanza...">
+    <button onclick="buscarVersiculos()">Buscar</button>
+
+    <div class="resultados" id="resultados"></div>
+  </div>
+
+  <footer>
+    © 2025 - Página de Versículos Bíblicos
+  </footer>
 
   <script>
+    // ✅ Versículo del día desde API
+    async function obtenerVersiculo() {
+      try {
+        const res = await fetch('https://beta.ourmanna.com/api/v1/get/?format=text&order=daily');
+        const texto = await res.text();
+        document.getElementById("versiculoDia").textContent = texto;
+      } catch (error) {
+        document.getElementById("versiculoDia").textContent = "No se pudo cargar el versículo del día.";
+      }
+    }
+
+    // ✅ Versículos locales para buscar
     const versiculos = [
-      "Juan 3:16 - Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito...",
+      "Juan 3:16 - Porque de tal manera amó Dios al mundo...",
       "Salmos 23:1 - Jehová es mi pastor; nada me faltará.",
       "Filipenses 4:13 - Todo lo puedo en Cristo que me fortalece.",
       "Proverbios 3:5 - Confía en el Señor con todo tu corazón...",
-      "Jeremías 29:11 - Porque yo sé los planes que tengo para ustedes, declara el Señor..."
+      "1 Corintios 13:4 - El amor es paciente, es bondadoso...",
+      "Jeremías 29:11 - Porque yo sé los planes que tengo para ustedes, declara el Señor...",
+      "Isaías 41:10 - No temas, porque yo estoy contigo...",
+      "Mateo 6:33 - Buscad primeramente el reino de Dios...",
+      "Romanos 8:28 - Todas las cosas ayudan a bien..."
     ];
 
-    function mostrarVersiculo() {
-      const aleatorio = Math.floor(Math.random() * versiculos.length);
-      document.getElementById('versiculo').textContent = versiculos[aleatorio];
+    function buscarVersiculos() {
+      const consulta = document.getElementById("buscar").value.toLowerCase();
+      const resultados = versiculos.filter(v => v.toLowerCase().includes(consulta));
+      
+      const contenedor = document.getElementById("resultados");
+      contenedor.innerHTML = resultados.length
+        ? resultados.map(v => `<div class="versiculo">${v}</div>`).join('')
+        : `<p>No se encontraron versículos para: "${consulta}"</p>`;
     }
 
-    // Mostrar uno al cargar
-    mostrarVersiculo();
+    // Ejecutar al cargar
+    obtenerVersiculo();
   </script>
 
 </body>
